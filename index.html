@@ -91,11 +91,20 @@
       font-size: 30px;
     }
 
+  
     .arrow {
-      color: #aaa6b8;
-      font-size: 18px;
-      margin-top: 12px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 16px;
+      color: white;
+      transition: transform 0.25s ease;
     }
+
+.option.open .arrow {
+  transform: rotate(180deg);
+}
+
 
     .panel {
       display: none;
@@ -173,7 +182,14 @@
           Trigger a sound effect or send a
           text-to-speech message!
         </p>
-        <div class="arrow">⌄</div>
+        <div class="arrow" aria-hidden="true">
+          <svg width="36" height="36" viewBox="0 0 24 24"
+               fill="none" stroke="currentColor"
+               stroke-width="3.5" stroke-linecap="round"
+               stroke-linejoin="round">
+            <path d="m5 8 7 7 7-7"/>
+          </svg>
+        </div>
       </button>
 
       <div class="panel" id="interactive-panel">
