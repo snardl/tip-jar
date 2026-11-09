@@ -46,14 +46,17 @@
     }
 
     .option {
+      display: block;
       margin: 16px 0;
       background: #1d1d25;
       border: 1px solid #373640;
       border-radius: 16px;
       overflow: hidden;
+      color: white;
+      text-decoration: none;
     }
 
-    .option button {
+    .option-button {
       display: block;
       width: 100%;
       padding: 26px;
@@ -65,8 +68,10 @@
       cursor: pointer;
     }
 
-    .option button:hover,
-    .option button:focus-visible {
+    .option-button:hover,
+    .option-button:focus-visible,
+    a.option:hover,
+    a.option:focus-visible {
       background: #30303c;
     }
 
@@ -153,45 +158,15 @@
       Tips are never expected, but always appreciated!
     </p>
 
-    <section class="option" id="anonymous">
-      <button type="button"
-              aria-expanded="false"
-              aria-controls="anonymous-panel"
-              onclick="togglePanel('anonymous')">
-        <div class="symbol">♡</div>
-        <h2>Anonymous Tip</h2>
-        <p>
-          Send a silent tip of any amount.
-          No sound effects or text-to-speech.
-        </p>
-        <div class="arrow">⌄</div>
-      </button>
-
-      <div class="panel" id="anonymous-panel">
-        <iframe
-          title="StreamElements tipping page"
-          data-src="https://streamelements.com/snardl/tip">
-        </iframe>
-
-        <a class="direct-link"
-           href="https://streamelements.com/snardl/tip"
-           target="_blank"
-           rel="noopener noreferrer">
-          Open Anonymous Tipping Page ↗
-        </a>
-
-        <p class="note">
-          If the form doesn't load above,
-          use the button to open it directly.
-        </p>
-      </div>
-    </section>
-
+    <!-- INTERACTIVE TIP: EXPANDABLE -->
     <section class="option" id="interactive">
-      <button type="button"
-              aria-expanded="false"
-              aria-controls="interactive-panel"
-              onclick="togglePanel('interactive')">
+      <button
+        class="option-button"
+        type="button"
+        aria-expanded="false"
+        aria-controls="interactive-panel"
+        onclick="toggleInteractive()">
+
         <div class="symbol">♫</div>
         <h2>Interactive Tip</h2>
         <p>
@@ -207,19 +182,37 @@
           data-src="https://soundalerts.com/snardl/tipping">
         </iframe>
 
-        <a class="direct-link"
-           href="https://soundalerts.com/snardl/tipping"
-           target="_blank"
-           rel="noopener noreferrer">
+        <a
+          class="direct-link"
+          href="https://soundalerts.com/snardl/tipping"
+          target="_blank"
+          rel="noopener noreferrer">
           Open Interactive Tipping Page ↗
         </a>
 
         <p class="note">
           If the form doesn't load above,
-          use the button to open it directly.
+          use the link to open it directly.
         </p>
       </div>
     </section>
+
+    <!-- ANONYMOUS TIP: DIRECT LINK -->
+    <a
+      class="option"
+      href="https://streamelements.com/snardl/tip"
+      target="_blank"
+      rel="noopener noreferrer">
+
+      <div class="option-button">
+        <div class="symbol">♡</div>
+        <h2>Anonymous Tip</h2>
+        <p>
+          Send a silent tip of any amount.
+          No sound effects or text-to-speech.
+        </p>
+      </div>
+    </a>
 
     <footer>
       Thank you for supporting the stream! ♡
@@ -232,26 +225,18 @@
   </main>
 
   <script>
-    function togglePanel(id) {
-      const selected = document.getElementById(id);
-      const wasOpen = selected.classList.contains('open');
+    function toggleInteractive() {
+      const section = document.getElementById('interactive');
+      const button = section.querySelector('button');
+      const frame = section.querySelector('iframe');
+      const isOpen = section.classList.toggle('open');
 
-      document.querySelectorAll('.option').forEach(option => {
-        option.classList.remove('open');
-        option.querySelector('button')
-          .setAttribute('aria-expanded', 'false');
+      button.setAttribute('aria-expanded', String(isOpen));
 
-        const frame = option.querySelector('iframe');
-        if (frame) frame.removeAttribute('src');
-      });
-
-      if (!wasOpen) {
-        selected.classList.add('open');
-        selected.querySelector('button')
-          .setAttribute('aria-expanded', 'true');
-
-        const frame = selected.querySelector('iframe');
+      if (isOpen) {
         frame.src = frame.dataset.src;
+      } else {
+        frame.removeAttribute('src');
       }
     }
   </script>
